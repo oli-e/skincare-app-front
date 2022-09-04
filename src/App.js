@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useCallback, useEffect, useState} from 'react';
+import axios from 'axios';
 
-function App() {
+import {FooterBanner, HeroBanner, Product} from './components';
+
+const Home = () => {
+
+  const [products, getProducts] = useState([]);
+
+  const getServerSide = useCallback(async () => {
+    const products = await fetch(`http://localhost:9000/products`)
+        .then(products => products.json())
+    console.log(products);
+    getProducts(products);
+  }, [])
+
+  useEffect(() => {
+    getServerSide();
+}, [getServerSide])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+      <>
+      <HeroBanner product= {products[0]} />
+
+        <div className='products-heading'>
+          <h2>Best Selling Products</h2>
+          <p>Speakers that will change the world</p>
+      </div>     
+      
+      <div className='products-container'>
+        {products?.map((product) => <Product key={product.id} product={ product } /> )}
+      </div>
+
+      <FooterBanner />
+      </>
+    );
 }
 
-export default App;
+
+
+export default Home;
