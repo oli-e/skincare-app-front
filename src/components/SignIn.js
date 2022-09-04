@@ -1,10 +1,12 @@
 import '../index.css';
-
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 import React, {useState} from 'react';
 
 const SignIn = () => {
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const navigate = useNavigate();
 
   const mystyle = {
     color: 'white',
@@ -55,23 +57,40 @@ const SignIn = () => {
       <div className='error'>{errorMessages.message}</div>
     );
 
-    const handleSubmit = (event) => {
+    var getCookies = function(){
+      var pairs = document.cookie.split(";");
+      var cookies = {};
+      for (var i=0; i<pairs.length; i++){
+        var pair = pairs[i].split("=");
+        cookies[(pair[0]+'').trim()] = unescape(pair.slice(1).join('='));
+      }
+      return cookies;
+    }
+  const handleSubmit = (event) => {
+
         // Prevent page reload
     event.preventDefault(); var {uname, pass} = document.forms[0];
         console.log(uname.value, pass.value);
-
         const requestOptions = {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE'
+            'mode': 'cors',
+            'accept': 'application/json',
+            'Access-Control-Allow-Origin': 'http://localhost:3000/',
+            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
           },
-          body: JSON.stringify(
-              {'email': 'login@mail.com', 'password': '1234pass'})
+          body: { 'email': 'login@mail.com', 'password': '1234pass' },
+          withCredentials: true
         };
-        fetch('http://localhost:9000/signIn', requestOptions)
-            .then(response => response.json())
+    axios.post('http://localhost:9000/signIn', requestOptions)
+      .then(response => console.log(response));
+        
+        // fetch('http://localhost:9000/signIn', requestOptions)
+        //   .then(response => console.log(response.json()))
+    
+    console.log(document);
+    sessionStorage.setItem('csrfToken', getCookies()["csrfToken"]);
+
 };
 
       const renderForm = (
@@ -103,8 +122,7 @@ const SignIn = () => {
             {
 isSubmitted ? <div>User is successfully logged in
     </div> : renderForm}
-          </div><
-    /div>
+          </div></div>
       );
 }
 
