@@ -1,30 +1,26 @@
-import React,  { useRef } from 'react';
+import React,  { useRef, useState } from 'react';
 import { AiOutlineMinus, AiOutlinePlus, AiOutlineLeft, AiOutlineRight,  AiOutlineShopping } from 'react-icons/ai';
 import { TiDeleteOutline } from 'react-icons/ti';
 import toast from 'react-hot-toast';
 import { useStateContext } from '../context/StateContext';
 import { useEffect } from "react";
+import axios from 'axios';
 
 const Cart = () => {
+    const [info, setInfo] = useState({});
 
     useEffect(() => {
         // POST request using fetch with set headers
         const requestOptions = {
-            method: 'POST',
+            // method: 'GET',
             headers: { 
-                'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin' : '*',
-                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE'
-            },
-            body: JSON.stringify({
-                userId: 1,
-                productId: 3,
-                amount: 4
-            })
+                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+                'X-CSRF-Token': sessionStorage.getItem("csrfToken")
+            }
         };
-        fetch('http://localhost:9000/', requestOptions)
-            .then(response => response.json())
-            .then(data => this.setState({ postId: data.id }));
+        axios.get('http://localhost:9000/product/1', requestOptions)
+            .then(response => setInfo(response.data));
     }, []);
 
     const cartRef = useRef();
@@ -38,7 +34,10 @@ const Cart = () => {
                     <span className='heading'>Your Cart</span>
                     <span className='cart-num-items'>{totalQuantities} Items</span>
                 </button>
-
+                <p>{info.id}</p>
+                <p>{info.name}</p>
+                <p>{info.price}</p>
+                
                 {cartItems.length < 1 && (
                     <div className='empty-cart'>
                         <AiOutlineShopping size={150} />
@@ -73,9 +72,13 @@ const Cart = () => {
                                 </p>           
                                 <button type='button' className='remove-item' onClick=""><TiDeleteOutline/></button>
                                 </div>
-                        </div>
+                            </div>
                         </div>
                     ))}
+                    {cartItems.length >= 1 &&
+                        <a href='/checkout'>
+                            <button type='button' onClick={() => setShowCart(false)} className="btn">Checkout</button>
+                        </a>}
                 </div>
             </div>
     </div>

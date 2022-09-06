@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 
 import Home from './App';
-import {Cart, Layout, SignIn, SignUp} from './components';
+import {Cart, Layout, SignIn, SignUp, Checkout} from './components';
 import ProductDetails from './components/ProductDetails';
 
 const Basic = () => {
@@ -31,7 +31,10 @@ const Basic = () => {
                 
                 <Route path='/sign-in' element={<Layout><SignIn /></Layout>} exact />
                 
-                <Route path='/sign-up' element={<Layout><SignUp/></Layout>} exact />
+                <Route path='/sign-up' element={<Layout><SignUp /></Layout>} exact />
+                
+                <Route path='/checkout' element={<Layout><Checkout /></Layout>} exact />
+                
             </Routes>
 
         </BrowserRouter>

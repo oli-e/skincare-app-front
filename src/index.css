@@ -894,6 +894,20 @@ span.text-red {
     margin: auto;
   }
 
+  .checkout-input-form{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 10px;
+  }
+  
+  .checkout-input{
+    height: 40px;
+    width: 450px;
+    color: violet;
+    background-color: #f02d34;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+  }
 
   /* ---------------------- login form ---------------------- */
 
@@ -908,26 +922,9 @@ span.text-red {
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   background-color: #322b3c;
 }
-
-input[type="text"],
-input[type="password"] {
-  height: 25px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-}
-
-input[type="submit"] {
-  margin-top: 10px;
-  cursor: pointer;
-  font-size: 15px;
-  background: #01d28e;
-  border: 1px solid #01d28e;
-  color: #fff;
-  padding: 10px 20px;
-}
-
-input[type="submit"]:hover {
+/* input[type="submit"]:hover {
   background: #6cf0c2;
-}
+} */
 
 .button-container-sign-in {
   display: flex;
@@ -952,6 +949,19 @@ input[type="submit"]:hover {
 .title-sign-in {
   font-size: 25px;
   margin-bottom: 20px;
+}
+
+.checkout-input-form{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 10px;
+}
+
+.checkout-input{
+  height: 40px;
+  width: 350px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .input-container {

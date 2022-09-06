@@ -16,7 +16,7 @@ const SignIn = () => {
     display: 'flex',
     'justify-content': 'center',
     gap: '20px',
-    height: '80vh',
+    height: '60vh',
     'align-items': 'center',
     'font-family': 'sans-serif'
   };
@@ -62,57 +62,76 @@ const SignIn = () => {
       var cookies = {};
       for (var i=0; i<pairs.length; i++){
         var pair = pairs[i].split("=");
+        // sessionStorage.setItem((pair[0] + '').trim(), pair.slice(1).join('='));
         cookies[(pair[0]+'').trim()] = unescape(pair.slice(1).join('='));
       }
       return cookies;
     }
-  const handleSubmit = (event) => {
+  const handleSubmit = (event, res, req) => {
+
+    let config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Credentials': true,
+        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,UPDATE,OPTIONS',
+        'Access-Control-Allow-Headers': 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept'
+      },
+      withCredentials: true
+    }
+    let data = { 'email': 'login@mail.com', 'password': '1234pass' }
+
+    const loginProcedure = () => {
+      navigate('/');
+      sessionStorage.setItem("logged");
+     }
 
         // Prevent page reload
-    event.preventDefault(); var {uname, pass} = document.forms[0];
-        console.log(uname.value, pass.value);
+    event.preventDefault();
+    var { uname, pass } = document.forms[0];
+    console.log(uname.value, pass.value);
         const requestOptions = {
-          method: 'POST',
           headers: {
             'mode': 'cors',
             'accept': 'application/json',
             'Access-Control-Allow-Origin': 'http://localhost:3000/',
             'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
           },
-          body: { 'email': 'login@mail.com', 'password': '1234pass' },
-          withCredentials: true
+          body: { 'email': 'login@mail.com', 'password': '1234pass' }
         };
-    axios.post('http://localhost:9000/signIn', requestOptions)
-      .then(response => console.log(response));
-        
-        // fetch('http://localhost:9000/signIn', requestOptions)
-        //   .then(response => console.log(response.json()))
-    
-    console.log(document);
-    sessionStorage.setItem('csrfToken', getCookies()["csrfToken"]);
+    axios.post('http://localhost:9000/signIn', requestOptions, config )
+      .then(response => response.status === 200 ? navigate('/') : navigate('/signIn'));
+    setIsSubmitted(true);
+    console.log(getCookies());
+    sessionStorage.setItem('csrfToken', getCookies().csrfToken);
 
 };
 
-      const renderForm = (
-        <div style={mystyle}>
-              <form onSubmit={handleSubmit} >
-            <div style={input_style}>
-              <label style={{
-  'font-size': '22px'}}>Username </label>
-              <input style={input_s }type="text" name="uname" required />
+  const renderForm = (
+    <div>
+      <div style={mystyle}>
+        <form onSubmit={handleSubmit} >
+          <div style={input_style}>
+            <label style={{  'font-size': '22px'}}>Username </label>
+            <input style={input_s }type="text" name="uname" required />
               {renderErrorMessage('uname')}
-            </div>
-            <div style={input_style}>
-              <label style={{'font-size': '22px'}}>Password </label>
-                      <input style={input_s } type='password' name='pass' required />
-              {renderErrorMessage('pass')}
-            </div>
-            <div>
-              <input style={button_sub} type="submit" />
-            </div>
-          </form>
-        </div>
-      );
+          </div>
+          <div style={input_style}>
+            <label style={{'font-size': '22px'}}>Password </label>
+            <input style={input_s } type='password' name='pass' required />
+                  {renderErrorMessage('pass')}
+          </div>
+          <div style={{"text-align": "center"}}>
+            <input style={button_sub} type="submit" />
+          </div>
+        </form>
+      </div>
+      <div style={{ 'font-size': 27, "text-align": "center" }}>
+        <a href='/sign-up'>
+          <p>Nie masz konta? Załóż</p> 
+        </a>
+      </div>
+  </div>
+  );
     
       return (
         <div className="app">
