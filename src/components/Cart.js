@@ -9,7 +9,7 @@ import axios from 'axios';
 const Cart = () => {
     const cartRef = useRef();
     
-    const { totalPrice, totalQuantities, cartItems, setShowCart, showCart } = useStateContext();
+    const { totalPrice, totalQuantities, cartItems, setShowCart, showCart, getCart } = useStateContext();
 
     const showProduct = (productId) => {
         window.location.href = `/product/${productId}`;
@@ -19,8 +19,8 @@ const Cart = () => {
         let userId = localStorage.getItem("userId");
         console.log("I want to delete this one with id: ", id);
         axios.get(`http://localhost:9000/delete/${id}/${userId}`, {});
-        window.location.reload(true);
         setShowCart(true);
+        getCart();
     };
 
     const validateUser = useCallback(async () => {

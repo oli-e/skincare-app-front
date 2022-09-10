@@ -13,7 +13,7 @@ const Home = () => {
         .then(products => products.json())
     getProducts(products);
 
-    if (document.cookie.includes("PLAY_SESSION")) {
+    if (document.cookie.includes("authenticator")) {
       setLoginStatus(true);
     }
   }, [])

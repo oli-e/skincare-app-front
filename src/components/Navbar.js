@@ -6,48 +6,31 @@ import {useStateContext} from '../context/StateContext';
 
 import Cart from './Cart';
 
-
+var getCookies = function(){
+    var pairs = document.cookie.split(";");
+    var cookies = {};
+    for (var i=0; i<pairs.length; i++){
+      var pair = pairs[i].split("=");
+      cookies[(pair[0]+'').trim()] = unescape(pair.slice(1).join('='));
+    }
+    return cookies;
+  }
 
 const Navbar = () => {
     const {showCart, setShowCart, totalQuantities} = useStateContext();
     const [isLoggedIn, setLoginStatus] = useState(false);
 
-    var getCookies = function(){
-        var pairs = document.cookie.split(";");
-        var cookies = {};
-        for (var i=0; i<pairs.length; i++){
-          var pair = pairs[i].split("=");
-          // sessionStorage.setItem((pair[0] + '').trim(), pair.slice(1).join('='));
-          cookies[(pair[0]+'').trim()] = unescape(pair.slice(1).join('='));
-        }
-        return cookies;
-      }
 
     const showOrders = () => {
-        window.location.href = 'orders';
+        window.location.href = '/orders';
     }
     
 
     const signOut = (event) => {
-
-        let payload = { 
-            "body" : {
-                "email": "login@mail.com",
-                "password": "1234pass"
-                }
-        }
-
         axios.defaults.headers.common['Authorization'] = `Bearer ${getCookies().authenticator}`;
-        axios.defaults.headers.common['X-CSRF-TOKEN'] = `${getCookies().csrfToken}`;
-        axios.defaults.headers.common['Access-Control-Allow-Origin'] = "*";
-        axios.defaults.headers.common['Access-Control-Allow-Methods'] = "GET,PUT,POST,DELETE";
-        axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Authorization, Authorization'
-        axios.defaults.headers.common['accept'] = "application/json";
-        axios.defaults.headers.common['mode'] = "cors";
 
-        console.log('csrfToken ', sessionStorage.getItem('csrfToken'))
-        console.log('cookie',`Bearer ${getCookies().PLAY_SESSION}`)
-        axios.post("http://localhost:9000/signOut", payload, {headers: {
+
+        axios.post("http://localhost:9000/signOut", {}, {headers: {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Credentials': true,
             'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,UPDATE,OPTIONS',
@@ -56,11 +39,11 @@ const Navbar = () => {
             response => console.log(response)
         );
         localStorage.removeItem("userId");
-    window.location.href = `/`;
+    window.location.reload(true);
     };
 
     const getNavbarState = useCallback(async () => {
-        if (document.cookie.includes("PLAY_SESSION")) {
+        if (document.cookie.includes("authenticator")) {
             setLoginStatus(true);
           }
 

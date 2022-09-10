@@ -21,6 +21,17 @@ export const StateContext = ({ children }) => {
     const [quantity, setQuantity] = useState(1);
 
 
+    const countProducts = (data) => {
+        let price = 0;
+        console.log(data);
+        data.map(obj => {
+            console.log(obj.amount);
+            price += obj.amount;
+        }
+        );
+        setTotalQuantities(price);
+    };
+
     const countPrice = (data) => {
         let price = 0;
         data.map(obj => {
@@ -37,7 +48,7 @@ export const StateContext = ({ children }) => {
                 .then(response => {
                     // console.log(response.data);
                     setCartItems(response.data);
-                    setTotalQuantities(response.data.length);
+                    countProducts(response.data);
                     countPrice(response.data);
                 }
                 );
@@ -51,7 +62,7 @@ export const StateContext = ({ children }) => {
 
     const onAdd = (product, quantity) => {
 
-        if (!document.cookie.includes("PLAY_SESSION")) {
+        if (!document.cookie.includes("authenticator")) {
             toast.error(`You have to sign in to buy products`);
         } else {
 
@@ -72,14 +83,16 @@ export const StateContext = ({ children }) => {
             }
         };
         axios.post('http://localhost:9000/addToCart', requestOptions)
-            .then(response => console.log(response));
+            .then(response => {
+                getCart();
+            });
 
           
 
         const productInCart = cartItems.find((item) => item.id === product.id);
         setTotalPrice((prevTotal) => prevTotal + product.price * quantity);
         toast.success(`${quantity} ${product.name} added to the cart!`);
-        window.location.reload(true);
+        // window.location.reload(true);
     }
     }
 
@@ -108,6 +121,7 @@ export const StateContext = ({ children }) => {
                 onAdd,
                 setShowCart,
                 setTotalQuantities,
+                getCart
             }}>
             { children}
         </Context.Provider>

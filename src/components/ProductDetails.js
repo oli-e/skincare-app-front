@@ -24,7 +24,6 @@ const ProductDetails = ({  products }) => {
         getServerSide();
     }, [getServerSide])
 
-    let price = 30;
     return (
         <div>
             <div className="product-detail-container">
@@ -87,5 +86,3 @@ const ProductDetails = ({  products }) => {
 }
 
 export default ProductDetails
-
-// implement react routing to navigate through folders
