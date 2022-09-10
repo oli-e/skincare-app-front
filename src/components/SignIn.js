@@ -69,41 +69,28 @@ const SignIn = () => {
     }
   const handleSubmit = (event, res, req) => {
 
-    let config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Credentials': true,
-        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,UPDATE,OPTIONS',
-        'Access-Control-Allow-Headers': 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept'
-      },
-      withCredentials: true
-    }
-    let data = { 'email': 'login@mail.com', 'password': '1234pass' }
-
-    const loginProcedure = () => {
-      navigate('/');
-      sessionStorage.setItem("logged");
-     }
-
+    let config = { withCredentials: true };
         // Prevent page reload
     event.preventDefault();
     var { uname, pass } = document.forms[0];
-    console.log(uname.value, pass.value);
-        const requestOptions = {
-          headers: {
-            'mode': 'cors',
-            'accept': 'application/json',
-            'Access-Control-Allow-Origin': 'http://localhost:3000/',
-            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
-          },
-          body: { 'email': 'login@mail.com', 'password': '1234pass' }
-        };
-    axios.post('http://localhost:9000/signIn', requestOptions, config )
-      .then(response => response.status === 200 ? navigate('/') : navigate('/signIn'));
-    setIsSubmitted(true);
-    console.log(getCookies());
-    sessionStorage.setItem('csrfToken', getCookies().csrfToken);
 
+    const requestOptions = {
+      headers: {
+        'mode': 'cors',
+        'accept': 'application/json',
+        'Access-Control-Allow-Origin': 'http://localhost:3000/',
+        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+      },
+      body: { 'email': uname.value, 'password': pass.value }
+    };
+    axios.post('http://localhost:9000/signIn', requestOptions, config )
+      .then(response => {
+        localStorage.setItem("userId", response.data.id);
+        console.log(response.data.id);
+        response.status === 200 ? window.location.href = `/` : window.location.href = `/sign-in`;
+      }
+      );
+    setIsSubmitted(true);
 };
 
   const renderForm = (

@@ -1,5 +1,5 @@
-import React,  { useRef, useState } from 'react';
-import { AiOutlineMinus, AiOutlinePlus, AiOutlineLeft, AiOutlineRight,  AiOutlineShopping } from 'react-icons/ai';
+import React,  { useRef, useState, useCallback } from 'react';
+import { AiOutlineLeft, AiOutlineShopping } from 'react-icons/ai';
 import { TiDeleteOutline } from 'react-icons/ti';
 import toast from 'react-hot-toast';
 import { useStateContext } from '../context/StateContext';
@@ -7,24 +7,28 @@ import { useEffect } from "react";
 import axios from 'axios';
 
 const Cart = () => {
-    const [info, setInfo] = useState({});
+    const cartRef = useRef();
+    
+    const { totalPrice, totalQuantities, cartItems, setShowCart, showCart } = useStateContext();
+
+    const showProduct = (productId) => {
+        window.location.href = `/product/${productId}`;
+    };
+
+    const handleDelete = (id) => {
+        let userId = localStorage.getItem("userId");
+        console.log("I want to delete this one with id: ", id);
+        axios.get(`http://localhost:9000/delete/${id}/${userId}`, {});
+        window.location.reload(true);
+        setShowCart(true);
+    };
+
+    const validateUser = useCallback(async () => {
+    }, [])
 
     useEffect(() => {
-        // POST request using fetch with set headers
-        const requestOptions = {
-            // method: 'GET',
-            headers: { 
-                'Access-Control-Allow-Origin' : '*',
-                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
-                'X-CSRF-Token': sessionStorage.getItem("csrfToken")
-            }
-        };
-        axios.get('http://localhost:9000/product/1', requestOptions)
-            .then(response => setInfo(response.data));
-    }, []);
-
-    const cartRef = useRef();
-    const { totalPrice, totalQuantities, cartItems, setShowCart, showCart } = useStateContext();
+        validateUser();
+    }, [validateUser])
 
     return (
         <div className='cart-wrapper' ref={cartRef}>
@@ -34,10 +38,7 @@ const Cart = () => {
                     <span className='heading'>Your Cart</span>
                     <span className='cart-num-items'>{totalQuantities} Items</span>
                 </button>
-                <p>{info.id}</p>
-                <p>{info.name}</p>
-                <p>{info.price}</p>
-                
+
                 {cartItems.length < 1 && (
                     <div className='empty-cart'>
                         <AiOutlineShopping size={150} />
@@ -50,35 +51,31 @@ const Cart = () => {
                 )}
 
                 <div className='product-container'>
-                    {cartItems.length >= 1 && cartItems.map( (item)=> (
-                        <div className='product' key={ item.id }>
-                            <img src={item.img} className='cart-product-image'></img>
+                    {cartItems.length >= 1 && cartItems.map((item) => (
+                        <div className='product' key={item.id}>
+                            <img src={item.img} className='cart-product-image' onClick={ () => showProduct(item.id) }></img>
                             <div className='item-desc'>
                                 <div className='flex top'>
                                     <h5>{item.name}</h5>
                                     <h4>${ item.price}</h4>
                                 </div>
                                 <div className='flex bottom'>
-                                <p className="quantity-desc">
-                            <span className="minus" onClick="">
-                                    <AiOutlineMinus/>
-                                </span>
-                            <span className="num" >
-                                    1
-                                </span>
-                            <span className="plus" onClick="">
-                                    <AiOutlinePlus/>
-                                </span>
-                                </p>           
-                                <button type='button' className='remove-item' onClick=""><TiDeleteOutline/></button>
+                                    <h5 className="num" >
+                                        x{item.amount }
+                                    </h5>   
+                                    <button type='button' className='remove-item' onClick={ () => handleDelete(item.id) }><TiDeleteOutline/></button>
                                 </div>
                             </div>
+                            
                         </div>
                     ))}
                     {cartItems.length >= 1 &&
-                        <a href='/checkout'>
-                            <button type='button' onClick={() => setShowCart(false)} className="btn">Checkout</button>
-                        </a>}
+                        <div>
+                            <h2>Total: ${totalPrice}</h2>
+                            <a href='/checkout'>
+                                <button type='button' onClick={() => setShowCart(false)} className="btn">Checkout</button>
+                            </a>
+                        </div>}
                 </div>
             </div>
     </div>

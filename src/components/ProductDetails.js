@@ -25,7 +25,6 @@ const ProductDetails = ({  products }) => {
     }, [getServerSide])
 
     let price = 30;
-    // const { id, name } = product;
     return (
         <div>
             <div className="product-detail-container">
@@ -33,11 +32,6 @@ const ProductDetails = ({  products }) => {
                     <div className="products-container">
                         <img src={product?.img} className="product-detail-image" width={400} height={400 } />
                     </div>
-                    {/* <div className="small-images-container">
-                        {image?.map((item, i) => (
-                            <img src="" className="" onMouseEnter=""></img>
-                        ))}
-                    </div> */}
                 </div>
 
                     <div className="product-detail-desc">

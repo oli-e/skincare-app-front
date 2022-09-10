@@ -1,11 +1,12 @@
 import '../index.css';
 import axios from 'axios';
 import React, {useState} from 'react';
-
+import {useNavigate} from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
 const SignUp = () => {
-    const [errorMessages, setErrorMessages] = useState({});
-
+  const [errorMessages, setErrorMessages] = useState({});
+    const navigate = useNavigate();
 
       const mystyle = {
         color: 'white',
@@ -51,7 +52,40 @@ const SignUp = () => {
         'align-items': 'center'
     };
 
-    const handleSubmit = () => { };
+  const handleSubmit = (event) => { 
+    event.preventDefault();
+
+    axios.defaults.headers.common['Access-Control-Allow-Origin'] = "*";
+    axios.defaults.headers.common['Access-Control-Allow-Methods'] = "GET,PUT,POST,DELETE";
+    axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Authorization, Authorization'
+    axios.defaults.headers.common['accept'] = "application/json";
+    axios.defaults.headers.common['mode'] = "cors";
+
+    let config = { withCredentials: true };
+
+    
+    var { uname, pass } = document.forms[0];
+
+    const requestOptions = 
+      { 'email': `${uname.value}`, 'password': `${pass.value}` }
+      ;
+    
+    
+    axios.post('http://localhost:9000/signUp', requestOptions, config )
+      .then(response => {
+        localStorage.setItem('userId', response.data.id);
+        if (response.status === 201) {
+          navigate('/sign-in');
+          toast.success("Now please login");
+        } 
+      }
+    ).catch(error => {
+      console.log(error);
+      navigate('/sign-up');
+      toast.error("Something went wrong. Please, try again!");
+    } );
+
+    };
 
     const renderErrorMessage = (name) =>
     name === errorMessages.name && (

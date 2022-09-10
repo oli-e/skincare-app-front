@@ -1,36 +1,86 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { toast } from 'react-hot-toast';
+import axios from 'axios';
 
 const Context = createContext();
+
+const headers_dict = {
+    headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+        'X-CSRF-Token': sessionStorage.getItem("csrfToken")
+    }
+};
 
 export const StateContext = ({ children }) => {
     const [showCart, setShowCart] = useState(false);
     const [cartItems, setCartItems] = useState([]);
-    const [totalPrice, setTotalPrice] = useState();
+    const [totalPrice, setTotalPrice] = useState(0);
     const [totalQuantities, setTotalQuantities] = useState(0);
     const [quantity, setQuantity] = useState(1);
 
-    const onAdd = (product, quantity) => {
-        const productInCart = cartItems.find((item) => item.id === product.id);
-        setTotalPrice((prevTotal) => prevTotal + product.price * quantity); 
-        setTotalQuantities((prevQuant) => prevQuant + quantity);
 
-        if (productInCart) {
+    const countPrice = (data) => {
+        let price = 0;
+        data.map(obj => {
+            price += obj.price * obj.amount;
+        }
+        );
+        setTotalPrice(price);
+    };
 
-            const updatedCartItems = cartItems.map((cartProduct) => { 
-                if (cartProduct.id === product.id) return {
-                    ...cartProduct, quantity: cartProduct.quantity + quantity
+    const getCart = useCallback(async () => {
+        if ("userId" in localStorage) {
+            let userId = parseInt(localStorage.getItem("userId"));
+            axios.get(`http://localhost:9000/getProducts/${userId}`, headers_dict)
+                .then(response => {
+                    // console.log(response.data);
+                    setCartItems(response.data);
+                    setTotalQuantities(response.data.length);
+                    countPrice(response.data);
                 }
-            });
-            setCartItems(updatedCartItems);
+                );
         }
-        else {
-            product.quantity = quantity;
-            
-            setCartItems([...cartItems, { ...product }]);
-        }
-        toast.success(`${quantity} ${product.name} added to the cart!`);
+    }, [])
 
+    useEffect(() => {
+        getCart();
+    }, [getCart])
+
+
+    const onAdd = (product, quantity) => {
+
+        if (!document.cookie.includes("PLAY_SESSION")) {
+            toast.error(`You have to sign in to buy products`);
+        } else {
+
+        let userId = localStorage.getItem("userId");
+        // axios POST TO /cart
+        const requestOptions = {
+            // method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+                'X-CSRF-Token': sessionStorage.getItem("csrfToken")
+            },
+            body: {
+                "userId": parseInt(localStorage.getItem("userId")),
+                "productId": product.id,
+                "amount": quantity
+            }
+        };
+        axios.post('http://localhost:9000/addToCart', requestOptions)
+            .then(response => console.log(response));
+
+          
+
+        const productInCart = cartItems.find((item) => item.id === product.id);
+        setTotalPrice((prevTotal) => prevTotal + product.price * quantity);
+        toast.success(`${quantity} ${product.name} added to the cart!`);
+        window.location.reload(true);
+    }
     }
 
     const increaseQuantity = () => {
@@ -56,7 +106,8 @@ export const StateContext = ({ children }) => {
                 increaseQuantity,
                 decreaseQuantity,
                 onAdd,
-                setShowCart
+                setShowCart,
+                setTotalQuantities,
             }}>
             { children}
         </Context.Provider>
