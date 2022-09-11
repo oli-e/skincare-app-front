@@ -26,8 +26,8 @@ const Home = () => {
     <>
       <HeroBanner product= {products[0]} />
         <div className='products-heading'>
-          <h2>Best Selling Products</h2>
-          <p>Speakers that will change the world</p>
+          <h2>Our Products</h2>
+          <p>Skincare products that will change your life</p>
       </div>     
       
       <div className='products-container'>

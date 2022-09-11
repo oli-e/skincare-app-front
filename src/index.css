@@ -73,7 +73,7 @@ a {
 }
 
 span.text-red {
-  -webkit-text-stroke: 1px #f02d34;
+  -webkit-text-stroke: 1px #de6f83;
   margin-left: 6px;
 }
 
@@ -102,7 +102,7 @@ span.text-red {
   right: -8px;
   font-size: 12px;
   color: #eee;
-  background-color: #f02d34;
+  background-color: rgb(222, 111, 131);
   width: 18px;
   height: 18px;
   border-radius: 50%;
@@ -151,7 +151,7 @@ span.text-red {
 
 .hero-banner-container {
   padding: 100px 40px;
-  background-color: #dcdcdc;
+  background-image: linear-gradient(to right, rgba(255,0,0,0), rgba(255,0,0,1));
   border-radius: 15px;
   position: relative;
   height: 500px;
@@ -167,7 +167,7 @@ span.text-red {
 .hero-banner-container button {
   border-radius: 15px;
   padding: 10px 16px;
-  background-color: #f02d34;
+  background-color: #de6f83;
   color: white;
   border: none;
   margin-top: 40px;
@@ -243,7 +243,7 @@ span.text-red {
 
 .footer-banner-container {
   padding: 100px 40px;
-  background-color: #f02d34;
+  background-color: #de6f83;
   border-radius: 15px;
   position: relative;
   height: 400px;
@@ -262,7 +262,7 @@ span.text-red {
   border-radius: 15px;
   padding: 10px 16px;
   background-color: white;
-  color: red;
+  color: #de6f83;
   border: none;
   margin-top: 40px;
   font-size: 18px;
@@ -366,7 +366,7 @@ span.text-red {
 
 .cart-num-items {
   margin-left: 10px;
-  color: #f02d34;
+  color: #de6f83;
 }
 
 .empty-cart {
@@ -391,6 +391,7 @@ span.text-red {
 }
 
 .product {
+  cursor: pointer;
   display: flex;
   gap: 30px;
   padding: 20px;
@@ -465,7 +466,7 @@ span.text-red {
   margin-top: 10px;
   margin-top: 40px;
   text-transform: uppercase;
-  background-color: #f02d34;
+  background-color: #de6f83;
   color: #fff;
   cursor: pointer;
   transform: scale(1, 1);
@@ -496,7 +497,7 @@ span.text-red {
 }
 
 .product-detail-image:hover {
-  background-color: #f02d34;
+  background-color: #de6f83;
 
 }
 
@@ -515,11 +516,11 @@ span.text-red {
 }
 
 .selected-image {
-  background-color: #f02d34;
+  background-color: #de6f83;
 }
 
 .reviews {
-  color: #f02d34;
+  color: #de6f83;
   margin-top: 10px;
   display: flex;
   gap: 5px;
@@ -543,7 +544,7 @@ span.text-red {
   font-weight: 700;
   font-size: 26px;
   margin-top: 30px;
-  color: #f02d34;
+  color: #de6f83;
 }
 
 .price .old-price,
@@ -567,12 +568,12 @@ span.text-red {
 
 .buttons .add-to-cart {
   padding: 10px 20px;
-  border: 1px solid #f02d34;
+  border: 1px solid #de6f83;
   margin-top: 40px;
   font-size: 18px;
   font-weight: 500;
   background-color: white;
-  color: #f02d34;
+  color: #de6f83;
   cursor: pointer;
   width: 200px;
   transform: scale(1, 1);
@@ -585,22 +586,17 @@ span.text-red {
 
 .buttons .buy-now {
   width: 200px;
-
   padding: 10px 20px;
-  background-color: #f02d34;
+  background-color: white;
   color: white;
   border: none;
   margin-top: 40px;
   font-size: 18px;
   font-weight: 500;
-  cursor: pointer;
   transform: scale(1, 1);
   transition: transform 0.5s ease;
 }
 
-.buttons .buy-now:hover {
-  transform: scale(1.1, 1.1)
-}
 
 .quantity-desc {
   border: 1px solid gray;
@@ -649,7 +645,7 @@ span.text-red {
 
 .max-qty {
   font-weight: 500;
-  color: #f02d34;
+  color: #de6f83;
 }
 
 .success-wrapper,
@@ -894,80 +890,114 @@ span.text-red {
     margin: auto;
   }
 
-  .checkout-input-form{
+  .checkout-input-form {
     display: flex;
     flex-direction: column;
     gap: 8px;
     margin: 10px;
   }
-  
-  .checkout-input{
+
+  .checkout-input {
     height: 40px;
     width: 450px;
     color: violet;
-    background-color: #f02d34;
+    background-color: #de6f83;
     border: 1px solid rgba(0, 0, 0, 0.2);
   }
 
-  /* ---------------------- login form ---------------------- */
+  .div-sign-in {
+    font-family: sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    height: 100vh;
+    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+    background-color: #322b3c;
+  }
 
-.div-sign-in {
-  font-family: sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 20px;
-  height: 100vh;
-  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-  background-color: #322b3c;
-}
-/* input[type="submit"]:hover {
+  /* input[type="submit"]:hover {
   background: #6cf0c2;
 } */
 
-.button-container-sign-in {
-  display: flex;
-  justify-content: center;
-}
+  .button-container-sign-in {
+    display: flex;
+    justify-content: center;
+  }
 
-.login-form {
-  background-color: white;
-  padding: 2rem;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
+  .login-form {
+    background-color: white;
+    padding: 2rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
 
-.list-container {
-  display: flex;
-}
+  .list-container {
+    display: flex;
+  }
 
-.error {
-  color: red;
-  font-size: 12px;
-}
+  .error {
+    color: red;
+    font-size: 12px;
+  }
 
-.title-sign-in {
-  font-size: 25px;
-  margin-bottom: 20px;
-}
+  .title-sign-in {
+    font-size: 25px;
+    margin-bottom: 20px;
+  }
 
-.checkout-input-form{
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin: 10px;
-}
+  .checkout-input-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 10px;
+  }
 
-.checkout-input{
-  height: 40px;
-  width: 350px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-}
+  .checkout-input {
+    height: 40px;
+    width: 350px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+  }
 
-.input-container {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin: 10px;
-}
+  .input-container {
+    display: inline-flex;
+    flex-direction: row;
+    gap: 8px;
+    margin: 10px;
+  }
+
+  .list-group {
+    width: 400px;
+  }
+
+  .list-group-item {
+    margin-top: 10px;
+    border-radius: none;
+    background: #5E35B1;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+
+
+  .list-group-item:hover {
+    transform: scaleX(1.1);
+  }
+
+  .check {
+    opacity: 0;
+    transition: all 0.6s ease-in-out;
+  }
+
+  .list-group-item:hover .check {
+    opacity: 1;
+
+  }
+
+  .about span {
+    font-size: 12px;
+    margin-right: 10px;
+
+  }
+
+
 }

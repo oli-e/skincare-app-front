@@ -8,50 +8,6 @@ const SignUp = () => {
   const [errorMessages, setErrorMessages] = useState({});
     const navigate = useNavigate();
 
-      const mystyle = {
-        color: 'white',
-        backgroundColor: '#baaad0',
-        padding: '10px',
-        fontFamily: 'Arial',
-        display: 'flex',
-        'justify-content': 'center',
-        gap: '20px',
-        height: '60vh',
-        'align-items': 'center',
-        'font-family': 'sans-serif'
-      };
-
-      const login_style = {
-        'background-color': 'white',
-        'padding': '2rem',
-        'box-shadow':
-            '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
-        'align-items': 'center',
-      };
-
-    const input_style = {
-        display: 'flex',
-        'flex-direction': 'column',
-        gap: '8px',
-        margin: '10px'
-    };
-    const input_s = {
-        height: '40px',
-        width: '350px',
-        border: '1px solid rgba(0, 0, 0, 0.2)'
-    };
-
-    const button_sub = {
-        'margin-top': '10px',
-        cursor: 'pointer',
-        'font-size': '15px',
-        background: '#322b3c',
-        border: '1px solid #322b3c',
-        color: '#fff',
-        padding: '10px 20px',
-        'align-items': 'center'
-    };
-
   const handleSubmit = (event) => { 
     event.preventDefault();
 
@@ -115,7 +71,7 @@ const SignUp = () => {
         </div>
         <div style={{ 'font-size': 27, "text-align": "center" }}>
           <a href='/sign-in'>
-            <p>Masz już konto? To zaloguj sie tu</p> 
+            <p>Already have an account? Sign In here</p> 
           </a>
         </div>
     </div>
@@ -123,4 +79,51 @@ const SignUp = () => {
     )
     }
 
+
+
+const mystyle = {
+  'border-radius': "30px",
+      color: 'white',
+      backgroundColor: '#de6f83',
+      padding: '10px',
+      fontFamily: 'Arial',
+      display: 'flex',
+      'justify-content': 'center',
+      gap: '20px',
+      height: '60vh',
+      'align-items': 'center',
+      'font-family': 'sans-serif'
+    };
+
+const login_style = {
+  'border-radius': "35px",
+      'background-color': 'white',
+      'padding': '2rem',
+      'box-shadow':
+          '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+      'align-items': 'center',
+    };
+
+  const input_style = {
+      display: 'flex',
+      'flex-direction': 'column',
+      gap: '8px',
+      margin: '10px'
+  };
+  const input_s = {
+      height: '40px',
+      width: '350px',
+      border: '1px solid rgba(0, 0, 0, 0.2)'
+  };
+
+  const button_sub = {
+      'margin-top': '10px',
+      cursor: 'pointer',
+      'font-size': '15px',
+      background: '#322b3c',
+      border: '1px solid #322b3c',
+      color: '#fff',
+      padding: '10px 20px',
+      'align-items': 'center'
+  };    
 export default SignUp;

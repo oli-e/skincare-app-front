@@ -1,76 +1,31 @@
 import '../index.css';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
+import toast from 'react-hot-toast';
 
 const SignIn = () => {
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const navigate = useNavigate();
 
-  const mystyle = {
-    color: 'white',
-    backgroundColor: '#baaad0',
-    padding: '10px',
-    fontFamily: 'Arial',
-    display: 'flex',
-    'justify-content': 'center',
-    gap: '20px',
-    height: '60vh',
-    'align-items': 'center',
-    'font-family': 'sans-serif'
-  };
+  const renderErrorMessage = (name) =>
+  name === errorMessages.name && (
+    <div className='error'>{errorMessages.message}</div>
+  );
 
-  const login_style = {
-    'background-color': 'white',
-    'padding': '2rem',
-    'box-shadow':
-        '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
-    'align-items': 'center',
-  };
+  const facebook = useCallback(async () => {
+    axios.get('http://localhost:9000/authenticate/facebook', {headers: {
+      'mode': 'cors',
+      'accept': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+    }}, { withCredentials: true }).then(response => console.log(response)).catch(error => console.log(error));
+  }, [])
 
-    const input_style = {
-        display: 'flex',
-        'flex-direction': 'column',
-        gap: '8px',
-        margin: '10px'
-    }
-    const input_s = {
-        height: '40px',
-        width: '350px',
-        border: '1px solid rgba(0, 0, 0, 0.2)'
-    }
-
-    const button_sub = {
-        'margin-top': '10px',
-        cursor: 'pointer',
-        'font-size': '15px',
-        background: '#322b3c',
-        border: '1px solid #322b3c',
-        color: '#fff',
-        padding: '10px 20px',
-        'align-items': 'center'
-      }
-    
-    const renderErrorMessage = (name) =>
-    name === errorMessages.name && (
-      <div className='error'>{errorMessages.message}</div>
-    );
-
-    var getCookies = function(){
-      var pairs = document.cookie.split(";");
-      var cookies = {};
-      for (var i=0; i<pairs.length; i++){
-        var pair = pairs[i].split("=");
-        // sessionStorage.setItem((pair[0] + '').trim(), pair.slice(1).join('='));
-        cookies[(pair[0]+'').trim()] = unescape(pair.slice(1).join('='));
-      }
-      return cookies;
-    }
   const handleSubmit = (event, res, req) => {
 
     let config = { withCredentials: true };
-        // Prevent page reload
     event.preventDefault();
     var { uname, pass } = document.forms[0];
 
@@ -78,23 +33,32 @@ const SignIn = () => {
       headers: {
         'mode': 'cors',
         'accept': 'application/json',
-        'Access-Control-Allow-Origin': 'http://localhost:3000/',
+        'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
       },
       body: { 'email': uname.value, 'password': pass.value }
     };
-    axios.post('http://localhost:9000/signIn', requestOptions, config )
+    axios.post('http://localhost:9000/signIn', requestOptions, config)
       .then(response => {
         localStorage.setItem("userId", response.data.id);
-        console.log(response.data.id);
-        response.status === 200 ? window.location.href = `/` : window.location.href = `/sign-in`;
-      }
-      );
+        console.log(response);
+        if (response.status === 200) {
+          window.location.href = `/`;
+        }
+      }).catch(error => {
+        console.log(error);
+        navigate('/sign-in');
+        toast.error("Wrong login or password. Please, try again!");
+      } );
     setIsSubmitted(true);
 };
 
-  const renderForm = (
+  return (
     <div>
+      <div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/uk_UA/sdk.js#xfbml=1&version=v14.0&appId=819756232808182&autoLogAppEvents=1" nonce="v2ivRkqN"></script>
+          <div style={login_style}>
+        <div style={{'font-size': '30px', 'margin-bottom': '20px'}}>Sign In</div>
       <div style={mystyle}>
         <form onSubmit={handleSubmit} >
           <div style={input_style}>
@@ -109,27 +73,79 @@ const SignIn = () => {
           </div>
           <div style={{"text-align": "center"}}>
             <input style={button_sub} type="submit" />
+            <input style={button_sub} type="submit" />
           </div>
-        </form>
+          </form>
+          <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false">
+             <button style={button_sub} onClick={() => facebook()}>Facebook</button>
+          </div>
       </div>
       <div style={{ 'font-size': 27, "text-align": "center" }}>
         <a href='/sign-up'>
-          <p>Nie masz konta? Załóż</p> 
+          <p>You dont have account? Sign up here</p> 
         </a>
       </div>
-  </div>
+  </div> </div>
   );
     
-      return (
-        <div className="app">
-          <div style={login_style}>
-            <div style={{'font-size': '30px',
-  'margin-bottom': '20px'}}>Sign In</div>
-            {
-isSubmitted ? <div>User is successfully logged in
-    </div> : renderForm}
-          </div></div>
-      );
+
 }
 
+const mystyle = {
+  color: 'white',
+  backgroundColor: '#de6f83',
+  'border-radius': "30px",
+  padding: '10px',
+  fontFamily: 'Arial',
+  display: 'flex',
+  'justify-content': 'center',
+  gap: '20px',
+  height: '60vh',
+  'align-items': 'center',
+  'font-family': 'sans-serif'
+};
+
+const login_style = {
+  'border-radius': "35px",
+  'background-color': 'white',
+  'padding': '2rem',
+  'box-shadow':
+      '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+  'align-items': 'center',
+};
+
+  const input_style = {
+      display: 'flex',
+      'flex-direction': 'column',
+      gap: '8px',
+      margin: '10px'
+  }
+  const input_s = {
+      height: '40px',
+      width: '350px',
+      border: '1px solid rgba(0, 0, 0, 0.2)'
+  }
+
+  const button_sub = {
+      'margin-top': '10px',
+      cursor: 'pointer',
+      'font-size': '15px',
+      background: '#322b3c',
+      border: '1px solid #322b3c',
+      color: '#fff',
+      padding: '10px 20px',
+      'align-items': 'center'
+    }
+  
+
+    var getCookies = function(){
+      var pairs = document.cookie.split(";");
+      var cookies = {};
+      for (var i=0; i<pairs.length; i++){
+        var pair = pairs[i].split("=");
+        // sessionStorage.setItem((pair[0] + '').trim(), pair.slice(1).join('='));
+        cookies[(pair[0]+'').trim()] = unescape(pair.slice(1).join('='));
+      }
+      return cookies;
+    }
 export default SignIn;

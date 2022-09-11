@@ -58,7 +58,7 @@ const Navbar = () => {
             <a href='/'>
             <p className='logo' href='/'>My Skincare</p>
             </a>
-            {isLoggedIn && <button type='button' className="btn" onClick={showOrders}>Your orders</button>}
+            {isLoggedIn && <button type='button' style={orders_btn} onClick={showOrders}>Your orders</button>}
 
             <div>
                 {isLoggedIn ? 
@@ -82,5 +82,23 @@ const Navbar = () => {
     </div>
     )
     }
+
+
+const orders_btn = {
+    "width": "100%",
+    "max-width": "400px",
+    "padding": "10px 12px",
+    "border-radius": "15px ",
+    "border": " 2px solid #de6f83",
+    "font-size": "20px",
+    "margin-top": "10px",
+    "text-transform": "uppercase",
+    "background-color": "white",
+    "color": "#de6f83",
+    "cursor": "pointer",
+    "transform": "scale(1, 1)",
+    "transition": "transform 0.5s ease",
+
+}
 
 export default Navbar;

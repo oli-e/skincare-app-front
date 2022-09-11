@@ -48,22 +48,22 @@ const Orders = () => {
     }, [getOrders])
 
     return (
-        <div className="product-detail-container" >
+        <div >
             <div><h1>Your Orders</h1></div>
             {noOrders && 
                <div className="products-container"><h2>You have no orders yet. Make some</h2></div>
             }
             {!noOrders && orders.map((order) => (
-                <div className="hero-banner-container">
-                <ul className="list-group mt-5 text-white">
-                <li className="list-group-item d-flex justify-content-between align-content-center">
+                <div style={orders_container}>
+                    <ul style={list_group}>
+                <li style={list_group_item}>
                     <div className="d-flex flex-row">
                         <div className="ml-2">
-                    <h6 className="mb-0">Order No:{order.id}</h6>
-                    <div className="about">
-                        <span>Date: {order.date}</span>
-                        <span>Status: {order.status}</span>
-                        <span>Total: ${order.total}</span>
+                    <h4 style={{"font-size":24}}>Order No: {order.id}</h4>
+                    <div style={span_style}>
+                        <span>  Date: {order.date}</span>
+                        <span style={{'margin-left': '30px'}}>  Status: {order.status}</span>
+                        <span style={{'margin-left': '30px'}}>  Total: ${order.total}</span>
                     </div>
                 </div>
             </div>
@@ -78,4 +78,40 @@ const Orders = () => {
     )
 }
 
+
+const list_group = {
+    width: '600px',
+    'list-style-type': 'none',
+    margin: 0,
+    padding: 0
+};
+
+const list_group_item = {
+    "margin-top": "10px",
+    "border-radius": "none",
+    "background": "transparent",
+    "cursor": "pointer",
+    "transition": "all 0.3s ease-in-out",
+    // d-flex justify-content-between align-content-center
+};
+
+const span_style = {
+    display: 'inline-block', 
+    margin: '10px 0px',
+    "font-size":16
+}
+
+const orders_container = {
+    padding: '10px 10px',
+    'background': '#dcdcdc',
+    'border-radius': '15px',
+    // position: 'relative',
+    height: '100px',
+    'line-height': '0.9',
+    width: '100%',
+    'display': 'block',
+    margin: '20px',
+    'justify-content': 'center',
+    'align-content': 'center'
+}
 export default Orders;
