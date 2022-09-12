@@ -69,7 +69,6 @@ export const StateContext = ({ children }) => {
         let userId = localStorage.getItem("userId");
         // axios POST TO /cart
         const requestOptions = {
-            // method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
@@ -89,7 +88,6 @@ export const StateContext = ({ children }) => {
 
           
 
-        const productInCart = cartItems.find((item) => item.id === product.id);
         setTotalPrice((prevTotal) => prevTotal + product.price * quantity);
         toast.success(`${quantity} ${product.name} added to the cart!`);
         // window.location.reload(true);
