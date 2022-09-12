@@ -26,20 +26,20 @@ const Navbar = () => {
     }
     
 
-    const signOut = (event) => {
+    const signOut = () => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${getCookies().authenticator}`;
-
-
         axios.post("http://localhost:9000/signOut", {}, {headers: {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Credentials': true,
             'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,UPDATE,OPTIONS',
             'Access-Control-Allow-Headers': 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept'
         }, withCredentials: true}).then(
-            response => console.log(response)
+            response => {
+                console.log(response)
+                localStorage.removeItem("userId");
+                window.location.reload(true);
+            }
         );
-        localStorage.removeItem("userId");
-    window.location.reload(true);
     };
 
     const getNavbarState = useCallback(async () => {
