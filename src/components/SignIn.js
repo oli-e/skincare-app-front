@@ -6,7 +6,6 @@ import toast from 'react-hot-toast';
 
 const SignIn = () => {
   const [errorMessages, setErrorMessages] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const navigate = useNavigate();
 
   const renderErrorMessage = (name) =>
@@ -20,10 +19,21 @@ const SignIn = () => {
       'accept': 'application/json',
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+      'Access-Control-Allow-Headers': "append,delete,entries,foreach,get,has,keys,set,values,Authorization",
+      'Access-Control-Allow-Credentials': true
+    }}, { withCredentials: true }).then(response => console.log(response));
+  }, [])
+
+  const google = useCallback(async () => {
+    axios.get('http://localhost:9000/authenticate/google', {headers: {
+      'mode': 'cors',
+      'accept': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
     }}, { withCredentials: true }).then(response => console.log(response)).catch(error => console.log(error));
   }, [])
 
-  const handleSubmit = (event, res, req) => {
+  const handleSubmit = (event) => {
 
     let config = { withCredentials: true };
     event.preventDefault();
@@ -50,7 +60,6 @@ const SignIn = () => {
         navigate('/sign-in');
         toast.error("Wrong login or password. Please, try again!");
       } );
-    setIsSubmitted(true);
 };
 
   return (
@@ -73,11 +82,15 @@ const SignIn = () => {
           </div>
           <div style={{"text-align": "center"}}>
             <input style={button_sub} type="submit" />
-            <input style={button_sub} type="submit" />
           </div>
           </form>
-          <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false">
-             <button style={button_sub} onClick={() => facebook()}>Facebook</button>
+          <div style={{"display":"block"}}>
+            <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false">
+              <button style={button_sub} onClick={() => facebook()}>Facebook</button>
+            </div>
+            <div>
+              <button style={button_sub} onClick={() => google()}>Google</button>
+            </div>
           </div>
       </div>
       <div style={{ 'font-size': 27, "text-align": "center" }}>
@@ -128,13 +141,15 @@ const login_style = {
 
   const button_sub = {
       'margin-top': '10px',
+      'margin-bottom': '10px',
       cursor: 'pointer',
       'font-size': '15px',
       background: '#322b3c',
       border: '1px solid #322b3c',
       color: '#fff',
       padding: '10px 20px',
-      'align-items': 'center'
+    'align-items': 'center',
+      "width":"150px"
     }
   
 
@@ -143,7 +158,6 @@ const login_style = {
       var cookies = {};
       for (var i=0; i<pairs.length; i++){
         var pair = pairs[i].split("=");
-        // sessionStorage.setItem((pair[0] + '').trim(), pair.slice(1).join('='));
         cookies[(pair[0]+'').trim()] = unescape(pair.slice(1).join('='));
       }
       return cookies;
