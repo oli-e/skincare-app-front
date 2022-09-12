@@ -3,7 +3,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import '../index.css';
 import {useParams} from 'react-router-dom';
 import { useStateContext } from '../context/StateContext';
-import { AiFillStar, AiOutlineStar, AiOutlineMinus, AiOutlinePlus, AiOutlineConsoleSql } from "react-icons/ai";
+import { AiFillStar, AiOutlineStar, AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import Product from "./Product";
 
 
@@ -74,7 +74,7 @@ const ProductDetails = ({  products }) => {
                     <div className="marquee">
                         <div className="maylike-products-container track">
                         {products.map((item) => (
-                                (item.id != params.id) ? 
+                                (item.id !== params.id) ? 
                                 (<Product key={item.id} product={item} />) :
                                 console.log()
                             )) }

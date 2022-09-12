@@ -1,12 +1,6 @@
 import React from 'react';
-import { useNavigate } from "react-router-dom";
 
 const Product = ({ product: { id, name, description, price, img } }) => {
-    const navigate = useNavigate();
-  
-    const coursesPage = () => {
-        navigate(`/product/${id}`);
-    } 
 
     return (
         <div>

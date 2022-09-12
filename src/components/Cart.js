@@ -1,7 +1,6 @@
-import React,  { useRef, useState, useCallback } from 'react';
+import React,  { useRef, useCallback } from 'react';
 import { AiOutlineLeft, AiOutlineShopping } from 'react-icons/ai';
 import { TiDeleteOutline } from 'react-icons/ti';
-import toast from 'react-hot-toast';
 import { useStateContext } from '../context/StateContext';
 import { useEffect } from "react";
 import axios from 'axios';
@@ -9,7 +8,7 @@ import axios from 'axios';
 const Cart = () => {
     const cartRef = useRef();
     
-    const { totalPrice, totalQuantities, cartItems, setShowCart, showCart, getCart } = useStateContext();
+    const { totalPrice, totalQuantities, cartItems, setShowCart, getCart } = useStateContext();
 
     const showProduct = (productId) => {
         window.location.href = `/product/${productId}`;

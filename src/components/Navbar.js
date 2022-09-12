@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, {useCallback, useEffect, useState} from 'react';
-import {AiOutlineLogin, AiOutlineShopping} from 'react-icons/ai'
+import {AiOutlineShopping} from 'react-icons/ai'
 
 import {useStateContext} from '../context/StateContext';
 

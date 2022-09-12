@@ -1,11 +1,10 @@
 import '../index.css';
 import axios from 'axios';
-import React, {useState} from 'react';
+import React from 'react';
 import {useNavigate} from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 
 const SignUp = () => {
-  const [errorMessages, setErrorMessages] = useState({});
     const navigate = useNavigate();
 
   const handleSubmit = (event) => { 
@@ -43,11 +42,6 @@ const SignUp = () => {
 
     };
 
-    const renderErrorMessage = (name) =>
-    name === errorMessages.name && (
-      <div className='error'>{errorMessages.message}</div>
-    );
-
     return (
 <div>
     <div style={login_style}>
@@ -57,12 +51,10 @@ const SignUp = () => {
             <div style={input_style}>
               <label style={{'font-size': '22px'}}>Username </label>
               <input style={input_s }type='text' name='uname' required />
-                {renderErrorMessage('uname')}
             </div>
             <div style={input_style}>
               <label style={{'font-size': '22px'}}>Password </label>
               <input style={input_s } type='password' name='pass' required />
-                    {renderErrorMessage('pass')}
             </div>
             <div style={{"text-align": "center"}}>
               <input style={button_sub} type="submit" />

@@ -33,7 +33,7 @@ const Orders = () => {
         if (userId) {
             axios.get(`http://localhost:9000/getOrders/${userId}`, payload).then(
                 response => {
-                    setNoOrders(response.data.length == 0);
+                    setNoOrders(response.data.length === 0);
                     setOrders(response.data);
                 }
 

@@ -1,17 +1,11 @@
 import '../index.css';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-import React, {useState, useCallback} from 'react';
+import React, {useCallback} from 'react';
 import toast from 'react-hot-toast';
 
 const SignIn = () => {
-  const [errorMessages, setErrorMessages] = useState({});
   const navigate = useNavigate();
-
-  const renderErrorMessage = (name) =>
-  name === errorMessages.name && (
-    <div className='error'>{errorMessages.message}</div>
-  );
 
   const facebook = useCallback(async () => {
     axios.get('http://localhost:9000/authenticate/facebook', {headers: {
@@ -73,12 +67,12 @@ const SignIn = () => {
           <div style={input_style}>
             <label style={{  'font-size': '22px'}}>Username </label>
             <input style={input_s }type="text" name="uname" required />
-              {renderErrorMessage('uname')}
+              {/* {renderErrorMessage('uname')} */}
           </div>
           <div style={input_style}>
             <label style={{'font-size': '22px'}}>Password </label>
             <input style={input_s } type='password' name='pass' required />
-                  {renderErrorMessage('pass')}
+                  {/* {renderErrorMessage('pass')} */}
           </div>
           <div style={{"text-align": "center"}}>
             <input style={button_sub} type="submit" />
@@ -153,13 +147,5 @@ const login_style = {
     }
   
 
-    var getCookies = function(){
-      var pairs = document.cookie.split(";");
-      var cookies = {};
-      for (var i=0; i<pairs.length; i++){
-        var pair = pairs[i].split("=");
-        cookies[(pair[0]+'').trim()] = unescape(pair.slice(1).join('='));
-      }
-      return cookies;
-    }
+
 export default SignIn;
